@@ -86,6 +86,10 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<issueManagement>
+		<system>Bug Genie</system>
+		<url>http://bugs.nexisonline.net/bb</url>
+	</issueManagement>
 	<build>
 		<finalName>${project.name}</finalName>
 		<plugins>
