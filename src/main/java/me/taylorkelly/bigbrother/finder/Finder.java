@@ -112,7 +112,7 @@ public class Finder {
              * list; SQL statement:
              */
             if (BBSettings.usingDBMS(DBMS.H2) || BBSettings.usingDBMS(DBMS.POSTGRES)) {
-                ps = conn.prepareStatement("SELECT player, count(player) AS modifications FROM " + BBDataTable.getInstance().getTableName() + " WHERE " + actionString + " AND rbacked = '0' AND x < ? AND x > ? AND y < ? AND y > ? AND z < ? AND z > ? AND world = ? GROUP BY id,player ORDER BY id DESC");
+                ps = conn.prepareStatement("SELECT player, count(player) AS modifications FROM " + BBDataTable.getInstance().getTableName() + " WHERE " + actionString + " AND rbacked = '0' AND x < ? AND x > ? AND y < ? AND y > ? AND z < ? AND z > ? AND world = ? GROUP BY player ORDER BY player DESC");
             } else {
                 ps = conn.prepareStatement("SELECT player, count(player) AS modifications FROM " + BBDataTable.getInstance().getTableName() + " WHERE " + actionString + " AND rbacked = '0' AND x < ? AND x > ? AND y < ? AND y > ? AND z < ? AND z > ? AND world = ? GROUP BY player ORDER BY id DESC");
             }
