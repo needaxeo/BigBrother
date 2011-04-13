@@ -34,7 +34,7 @@ public class Updater {
 
 	//Server's down, don't use it.
 	//private final static String UPDATE_SITE = "http://stethoscopesmp.com/tkelly/";
-	private final static String UPDATE_SITE = "http://mine.7chan.org/mirror/lib/";
+	private final static String UPDATE_SITE = "http://mine.7chan.org/mirror/";
 
 	private List<UpdaterFile> needsUpdating = new ArrayList<UpdaterFile>();
 
