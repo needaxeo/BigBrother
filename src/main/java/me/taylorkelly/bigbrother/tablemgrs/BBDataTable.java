@@ -80,7 +80,10 @@ public abstract class BBDataTable extends DBTable {
             conn = ConnectionManager.getConnection();
             if(conn!=null) {
                 // TODO maybe more customizable actions?
-                ps = conn.prepareStatement("SELECT  bbdata.id, date, player, action, x, y, z, type, data, rbacked, bbworlds.name AS world FROM " + BBDataTable.getInstance().getTableName() + " AS bbdata INNER JOIN "+BBWorldsTable.getInstance().getTableName()+" AS bbworlds ON bbworlds.id = bbdata.world  WHERE rbacked = 0 AND x = ? AND y = ?  AND z = ? AND bbdata.world = ? ORDER BY bbdata.id ASC;");
+            	if(BBSettings.usingDBMS(DBMS.POSTGRES)) // TODO: Someone made rbacked a BOOLEAN, which screws up the logic.
+            		ps = conn.prepareStatement("SELECT  bbdata.id, date, player, action, x, y, z, type, data, rbacked, bbworlds.name AS world FROM " + BBDataTable.getInstance().getTableName() + " AS bbdata INNER JOIN "+BBWorldsTable.getInstance().getTableName()+" AS bbworlds ON bbworlds.id = bbdata.world  WHERE rbacked = false AND x = ? AND y = ?  AND z = ? AND bbdata.world = ? ORDER BY bbdata.id ASC;");
+            	else
+            		ps = conn.prepareStatement("SELECT  bbdata.id, date, player, action, x, y, z, type, data, rbacked, bbworlds.name AS world FROM " + BBDataTable.getInstance().getTableName() + " AS bbdata INNER JOIN "+BBWorldsTable.getInstance().getTableName()+" AS bbworlds ON bbworlds.id = bbdata.world  WHERE rbacked = 0 AND x = ? AND y = ?  AND z = ? AND bbdata.world = ? ORDER BY bbdata.id ASC;");
                 
                 ps.setInt(1, block.getX());
                 ps.setInt(2, block.getY());
