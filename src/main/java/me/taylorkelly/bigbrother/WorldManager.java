@@ -99,7 +99,7 @@ public class WorldManager {
             st = conn.createStatement();
             st.executeUpdate(BBWorldsTable.getInstance().getCreateSyntax());
             conn.commit();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             if(!e.getMessage().contains("already exists")) 
                 BBLogging.severe("Can't create the bbworld table", e);
             else 
