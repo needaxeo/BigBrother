@@ -86,7 +86,11 @@ public abstract class RollbackPreparedStatement {
             statement.append(manager.getWorld(rollback.center.getWorld().getName()));
             statement.append("'");
         }
-        statement.append(" AND rbacked = '0'");
+        if(BBSettings.usingDBMS(DBMS.H2))
+        	statement.append("AND rbacked = false");
+        else
+        	statement.append(" AND rbacked = '0'");
+        
         statement.append(" ORDER BY bbdata.id DESC");
         statement.append(";");
         return statement.toString();
@@ -153,7 +157,10 @@ public abstract class RollbackPreparedStatement {
         StringBuilder statement = new StringBuilder("UPDATE ");
         statement.append(" "+BBDataTable.getInstance().getTableName() + " AS bbdata,");
         statement.append(" "+BBUsersTable.getInstance().getTableName()+" AS usr ");
-        statement.append(" SET rbacked = '1'");
+        if(BBSettings.usingDBMS(DBMS.H2))
+        	statement.append("SET rbacked = true");
+        else
+        	statement.append(" SET rbacked = '1'");
         statement.append(" WHERE ");
         statement.append(" bbdata.player = usr.id AND ");
         statement.append(getActionString());
@@ -212,7 +219,10 @@ public abstract class RollbackPreparedStatement {
             statement.append("'");
         }
 
-        statement.append(" AND rbacked = '0'");
+        if(BBSettings.usingDBMS(DBMS.H2))
+        	statement.append(" AND rbacked = false");
+        else
+        	statement.append(" AND rbacked = '0'");
         statement.append(";");
         return statement.toString();
     }
@@ -221,7 +231,11 @@ public abstract class RollbackPreparedStatement {
         StringBuilder statement = new StringBuilder("UPDATE ");
         statement.append(" "+BBDataTable.getInstance().getTableName() + " AS bbdata,");
         statement.append(" "+BBUsersTable.getInstance().getTableName()+" AS usr ");
-        statement.append(" SET rbacked = '0'");
+
+        if(BBSettings.usingDBMS(DBMS.H2))
+        	statement.append(" SET rbacked = false");
+        else
+        	statement.append(" SET rbacked = '0'");
         statement.append(" WHERE ");
         statement.append(" bbdata.player = usr.id AND ");
         statement.append(getActionString());
@@ -280,7 +294,10 @@ public abstract class RollbackPreparedStatement {
             statement.append("'");
         }
 
-        statement.append(" AND rbacked = '1'");
+        if(BBSettings.usingDBMS(DBMS.H2))
+        	statement.append(" AND rbacked = true");
+        else
+        	statement.append(" AND rbacked = '1'");
         statement.append(";");
         return statement.toString();
     }
