@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import me.taylorkelly.bigbrother.BBPlayerInfo;
 import me.taylorkelly.bigbrother.BBSettings;
-import me.taylorkelly.bigbrother.tablemgrs.BBUsersTable;
 
 import org.bukkit.Material;
 import org.bukkit.Server;

@@ -100,7 +100,10 @@ public class WorldManager {
             st.executeUpdate(BBWorldsTable.getInstance().getCreateSyntax());
             conn.commit();
         } catch (SQLException e) {
-            BBLogging.severe("Create World Table SQL Exception", e);
+            if(!e.getMessage().contains("already exists")) 
+                BBLogging.severe("Can't create the bbworld table", e);
+            else 
+                BBLogging.debug("H2 crying about the table already existing.  You can safely ignore this message.",e);
         } finally {
             ConnectionManager.cleanup( "Create World Table",  conn, st, null );
         }
