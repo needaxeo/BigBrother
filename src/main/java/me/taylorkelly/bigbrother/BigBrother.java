@@ -100,7 +100,7 @@ public class BigBrother extends JavaPlugin {
             BBLogging.info("------------------------------------");
             BBLogging.info("Hello, and thank you for using the TESTING version of BigBrother!");
             BBLogging.info("Please note that, since this is far from complete, there will be many bugs.");
-            BBLogging.info("IF YOU FIND ANY BUGS, PLEASE REPORT THEM ON https://github.com/tkelly910/BigBrother/issues");
+            BBLogging.info("IF YOU FIND ANY BUGS, PLEASE REPORT THEM ON http://bugs.nexisonline.net/bb");
             BBLogging.info("Please stay tuned in irc.esper.net #bigbrother for updates and build notifications.");
             BBLogging.info("------------------------------------");
         }
