@@ -111,10 +111,10 @@ public abstract class RollbackPreparedStatement {
     }
 
     private StringBuilder getPlayerString(ArrayList<String> players) {
-        StringBuilder ret = new StringBuilder("usr.name IN (");
+        StringBuilder ret = new StringBuilder("player IN (");
         for (int i = 0; i < players.size(); i++) {
             ret.append("'");
-            ret.append(players.get(i));
+            ret.append(BBUsersTable.getInstance().getUserByName(players.get(i)).getID());
             ret.append("'");
             if (i + 1 < players.size()) {
                 ret.append(",");
@@ -155,14 +155,12 @@ public abstract class RollbackPreparedStatement {
 
     public String update(Rollback rollback, WorldManager manager) {
         StringBuilder statement = new StringBuilder("UPDATE ");
-        statement.append(" "+BBDataTable.getInstance().getTableName() + " AS bbdata,");
-        statement.append(" "+BBUsersTable.getInstance().getTableName()+" AS usr ");
+        statement.append(" "+BBDataTable.getInstance().getTableName() + " AS bbdata");
         if(BBSettings.usingDBMS(DBMS.H2))
         	statement.append("SET rbacked = true");
         else
         	statement.append(" SET rbacked = '1'");
         statement.append(" WHERE ");
-        statement.append(" bbdata.player = usr.id AND ");
         statement.append(getActionString());
         if (!rollback.rollbackAll) {
             statement.append(" AND ");
