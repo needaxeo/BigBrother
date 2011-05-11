@@ -54,17 +54,16 @@ public class SignDestroyed extends BBDataBlock {
         if (!currWorld.isChunkLoaded(x >> 4, z >> 4)) {
             currWorld.loadChunk(x >> 4, z >> 4);
         }
-
+            
         String[] lines = data.split("\u0060");
-
 
         Block block = currWorld.getBlockAt(x, y, z);
         block.setTypeId(type);
         block.setData(Byte.valueOf(lines[0]));
         if (block.getState() instanceof Sign) {
             Sign sign = (Sign) block.getState();
-            for (int i = 1; i < lines.length+1; i++) {
-                sign.setLine(i, lines[i]);
+            for (int i = 1; i < lines.length; i++) {
+                sign.setLine(i-1, lines[i]);
             }
         } else {
             BBLogging.warning("Error when restoring sign");
@@ -77,7 +76,6 @@ public class SignDestroyed extends BBDataBlock {
         if (!currWorld.isChunkLoaded(x >> 4, z >> 4)) {
             currWorld.loadChunk(x >> 4, z >> 4);
         }
-
         currWorld.getBlockAt(x, y, z).setTypeIdAndData(0, (byte) 0, true);
     }
 }

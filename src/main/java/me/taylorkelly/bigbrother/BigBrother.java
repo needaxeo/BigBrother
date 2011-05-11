@@ -207,7 +207,7 @@ public class BigBrother extends JavaPlugin {
         pm.registerEvent(Event.Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Monitor, this);
         pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, playerListener, Priority.Monitor, this);
         pm.registerEvent(Event.Type.PLAYER_INTERACT, playerListener, Priority.Monitor, this);
-
+        
         pm.registerEvent(Event.Type.BLOCK_PLACE, blockListener, Priority.Monitor, this);
         pm.registerEvent(Event.Type.BLOCK_BREAK, blockListener, Priority.Monitor, this);
         pm.registerEvent(Event.Type.BLOCK_DAMAGE, blockListener, Priority.Monitor, this);
@@ -216,7 +216,7 @@ public class BigBrother extends JavaPlugin {
         pm.registerEvent(Event.Type.BLOCK_BURN, blockListener, Priority.Monitor, this);
         pm.registerEvent(Event.Type.BLOCK_FROMTO, blockListener, Priority.Monitor, this);
         pm.registerEvent(Event.Type.SIGN_CHANGE, blockListener, Priority.Monitor, this);
-
+    
         pm.registerEvent(Event.Type.ENTITY_EXPLODE, entityListener, Priority.Monitor, this);
         pm.registerEvent(Event.Type.ENTITY_DEATH, entityListener, Priority.Monitor, this);
 

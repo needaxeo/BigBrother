@@ -9,7 +9,7 @@ import org.bukkit.entity.Item;
 public class DropItem extends BBDataBlock {
 
     public DropItem(String player, Item item, String world) {
-        super(player, Action.DROP_ITEM, world, item.getLocation().getBlockX(), item.getLocation().getBlockY(), item.getLocation().getBlockZ(), item.getItemStack().getTypeId(), item.getItemStack().getAmount() + ";" + item.getItemStack().getData().getData() + ";" + item.getItemStack().getDurability());
+        super(player, Action.DROP_ITEM, world, item.getLocation().getBlockX(), item.getLocation().getBlockY(), item.getLocation().getBlockZ(), item.getItemStack().getTypeId(), item.getItemStack().getAmount() + ";" + item.getItemStack().getData() + ";" + item.getItemStack().getDurability());
     }
 
     public void rollback(World wld) {

@@ -9,7 +9,7 @@ import org.bukkit.entity.Item;
 public class PickupItem extends BBDataBlock {
 
     public PickupItem(String player, Item item, String world) {
-        super(player, Action.PICKUP_ITEM, world, item.getLocation().getBlockX(), item.getLocation().getBlockY(), item.getLocation().getBlockZ(), item.getItemStack().getTypeId(), item.getItemStack().getAmount() + ";" + item.getItemStack().getData().getData() + ";" + item.getItemStack().getDurability());
+        super(player, Action.PICKUP_ITEM, world, item.getLocation().getBlockX(), item.getLocation().getBlockY(), item.getLocation().getBlockZ(), item.getItemStack().getTypeId(), item.getItemStack().getAmount() + ";" + item.getItemStack().getData() + ";" + item.getItemStack().getDurability());
     }
 
     public void rollback(World wld) {
