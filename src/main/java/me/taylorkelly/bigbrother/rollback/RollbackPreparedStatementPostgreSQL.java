@@ -2,35 +2,19 @@ package me.taylorkelly.bigbrother.rollback;
 
 import java.util.ArrayList;
 
-import me.taylorkelly.bigbrother.BBSettings;
 import me.taylorkelly.bigbrother.WorldManager;
-
-import me.taylorkelly.bigbrother.BBSettings.DBMS;
 import me.taylorkelly.bigbrother.datablock.BBDataBlock.Action;
 import me.taylorkelly.bigbrother.tablemgrs.BBDataTable;
 import me.taylorkelly.bigbrother.tablemgrs.BBUsersTable;
 import me.taylorkelly.bigbrother.tablemgrs.BBWorldsTable;
 
-public abstract class RollbackPreparedStatement {
-	
-	private static RollbackPreparedStatement instance=null;
-	
-	public static RollbackPreparedStatement getInstance() {
-		if(instance==null) {
-            if(BBSettings.usingDBMS(DBMS.MYSQL))
-                instance=new RollbackPreparedStatementMySQL();
-            else if(BBSettings.usingDBMS(DBMS.POSTGRES))
-                instance=new RollbackPreparedStatementPostgreSQL();
-            else
-                instance=new RollbackPreparedStatementH2();
-        }
-        return instance;
-	}
+public class RollbackPreparedStatementPostgreSQL extends
+		RollbackPreparedStatement {
 
     public String create(Rollback rollback, WorldManager manager) {
-        StringBuilder statement = new StringBuilder("SELECT bbdata.id, date, player, action, x, y, z, type, data, rbacked, bbworlds.name AS `world`");
+        StringBuilder statement = new StringBuilder("SELECT bbdata.id, date, player, action, x, y, z, type, data, rbacked, bbworlds.name AS \"world\"");
         statement.append(" FROM");
-        statement.append(" "+BBDataTable.getInstance().getTableName() + " AS bbdata,");
+        statement.append(" "+BBDataTable.getInstance().getTableName()+ " AS bbdata,");
         statement.append(" "+BBWorldsTable.getInstance().getTableName()+" AS bbworlds, ");
         statement.append(" "+BBUsersTable.getInstance().getTableName()+" AS usr ");
         statement.append(" WHERE ");
@@ -86,11 +70,7 @@ public abstract class RollbackPreparedStatement {
             statement.append(manager.getWorld(rollback.center.getWorld().getName()));
             statement.append("'");
         }
-        if(BBSettings.usingDBMS(DBMS.H2))
-        	statement.append("AND rbacked = false");
-        else
-        	statement.append(" AND rbacked = '0'");
-        
+        statement.append(" AND rbacked = '0'");
         statement.append(" ORDER BY bbdata.id DESC");
         statement.append(";");
         return statement.toString();
@@ -111,10 +91,10 @@ public abstract class RollbackPreparedStatement {
     }
 
     private StringBuilder getPlayerString(ArrayList<String> players) {
-        StringBuilder ret = new StringBuilder("player IN (");
+        StringBuilder ret = new StringBuilder("usr.name IN (");
         for (int i = 0; i < players.size(); i++) {
             ret.append("'");
-            ret.append(BBUsersTable.getInstance().getUserByName(players.get(i)).getID());
+            ret.append(players.get(i));
             ret.append("'");
             if (i + 1 < players.size()) {
                 ret.append(",");
@@ -149,24 +129,20 @@ public abstract class RollbackPreparedStatement {
         ret.append(Action.BLOCK_BURN.ordinal());
         ret.append("','");
         ret.append(Action.LAVA_FLOW.ordinal());
-        ret.append("','");
-        ret.append(Action.SIGN_DESTROYED.ordinal());
         ret.append("')");
         return ret;
     }
 
     public String update(Rollback rollback, WorldManager manager) {
-        StringBuilder statement = new StringBuilder("UPDATE ");
-        statement.append(" "+BBDataTable.getInstance().getTableName() + " AS bbdata");
-        if(BBSettings.usingDBMS(DBMS.H2))
-        	statement.append("SET rbacked = true");
-        else
-        	statement.append(" SET rbacked = '1'");
+        StringBuilder statement = new StringBuilder("UPDATE");
+        statement.append(" " + BBDataTable.getInstance().getTableName());
+        statement.append(" SET rbacked = '1'");
         statement.append(" WHERE ");
         statement.append(getActionString());
         if (!rollback.rollbackAll) {
-            statement.append(" AND ");
+            statement.append(" AND player IN (SELECT id FROM " + BBUsersTable.getInstance().getTableName()+" AS usr WHERE ");
             statement.append(getPlayerString(rollback.players));
+            statement.append(")");
         }
         if (rollback.blockTypes.size() > 0) {
             statement.append(" AND ");
@@ -219,10 +195,7 @@ public abstract class RollbackPreparedStatement {
             statement.append("'");
         }
 
-        if(BBSettings.usingDBMS(DBMS.H2))
-        	statement.append(" AND rbacked = false");
-        else
-        	statement.append(" AND rbacked = '0'");
+        statement.append(" AND rbacked = '0'");
         statement.append(";");
         return statement.toString();
     }
@@ -231,11 +204,7 @@ public abstract class RollbackPreparedStatement {
         StringBuilder statement = new StringBuilder("UPDATE ");
         statement.append(" "+BBDataTable.getInstance().getTableName() + " AS bbdata,");
         statement.append(" "+BBUsersTable.getInstance().getTableName()+" AS usr ");
-
-        if(BBSettings.usingDBMS(DBMS.H2))
-        	statement.append(" SET rbacked = false");
-        else
-        	statement.append(" SET rbacked = '0'");
+        statement.append(" SET rbacked = '0'");
         statement.append(" WHERE ");
         statement.append(" bbdata.player = usr.id AND ");
         statement.append(getActionString());
@@ -294,10 +263,7 @@ public abstract class RollbackPreparedStatement {
             statement.append("'");
         }
 
-        if(BBSettings.usingDBMS(DBMS.H2))
-        	statement.append(" AND rbacked = true");
-        else
-        	statement.append(" AND rbacked = '1'");
+        statement.append(" AND rbacked = '1'");
         statement.append(";");
         return statement.toString();
     }

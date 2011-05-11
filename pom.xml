@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>me.taylorkelly</groupId>
 	<artifactId>bigbrother</artifactId>
-	<version>1.7.2-SNAPSHOT</version>
+	<version>1.8-SNAPSHOT</version>
 	<name>BigBrother</name>
 	<url>http://www.bukkit.org</url>
 	<repositories>
@@ -25,7 +25,7 @@
 			<releases>
 				<enabled>true</enabled>
 			</releases>
-			<url>http://ci.nexisonline.net:8080/nexus/content/repositories/public/</url>
+			<url>http://ci.nexisonline.net:8080/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -86,6 +86,10 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	<issueManagement>
+		<system>Bug Genie</system>
+		<url>http://bugs.nexisonline.net/bb</url>
+	</issueManagement>
 	<build>
 		<finalName>${project.name}</finalName>
 		<plugins>
